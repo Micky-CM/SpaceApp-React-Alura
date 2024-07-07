@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import GlobalStyles from "./components/GlobalStyles"
 import Cabecera from "./components/Cabecera"
@@ -5,10 +6,9 @@ import BarraLateral from "./components/BarraLateral"
 import Banner from "./components/Banner"
 import banner from "./assets/banner.png"
 import Galeria from "./components/Galeria"
-import fotos from "./fotos.json"
-import { useState } from "react"
 import ModalZoom from "./components/ModalZoom"
 import Pie from "./components/Pie"
+import Cargando from "./components/Cargando"
 
 const FondoGradiente = styled.div`
 background: linear-gradient(175deg, #041833 4.16%, #04244F 48%, #154580 96.76%);
@@ -34,8 +34,9 @@ const ContenidoGaleria = styled.section`
 const App = () => {
 
   const [consulta, setConsulta] = useState('')
-  const [fotosDeGaleria, setFotosDeGaleria] = useState(fotos)
+  const [fotosDeGaleria, setFotosDeGaleria] = useState([])
   const [fotoSeleccionada, setFotoSeleccionada] = useState(null)
+  const [cargando, setCargando] = useState(true)
 
   const alAlternarFavorito = (foto) => {
 
@@ -55,6 +56,20 @@ const App = () => {
     }))
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      fetch("http://localhost:3000/fotos")
+        .then((response) => response.json())
+        .then((data) => {
+          setFotosDeGaleria(data);
+          setCargando(false);
+        });
+    }, 5000);
+  }, []);
+
+  if (cargando) {
+    return <Cargando />;
+  }
 
   return (
     <>
@@ -66,10 +81,12 @@ const App = () => {
             <BarraLateral />
             <ContenidoGaleria>
               <Banner texto="La galería más completa de fotos del espacio" backgroundImage={banner} />
-              <Galeria alSeleccionarFoto={foto => setFotoSeleccionada(foto)}
-              fotos={fotosDeGaleria}
-              alAlternarFavorito={alAlternarFavorito} 
-              consulta={consulta}/>
+              {
+                <Galeria alSeleccionarFoto={foto => setFotoSeleccionada(foto)}
+                fotos={fotosDeGaleria}
+                alAlternarFavorito={alAlternarFavorito} 
+                consulta={consulta}/>
+              }
             </ContenidoGaleria>
           </MainContainer>
         </AppContainer>
