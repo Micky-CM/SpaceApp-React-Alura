@@ -12,21 +12,21 @@ const FigureEstilizada = styled.figure`
     max-width: 100%;
     background-size: cover;
 `
+
 const TituloEstilizado = styled.h1`
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 48px;
-  color: #FFFFFF;
-  max-width: 300px;
-  padding: 0 64px;
-`;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    color: #FFFFFF;
+    max-width: 300px;
+    padding: 0 64px;
+`
 
-const Banner = ({ texto, backgroundImage }) => {
-  return (
+const Banner = ({texto, backgroundImage}) => {
+    return (
     <FigureEstilizada $backgroundImage={backgroundImage}>
-      <TituloEstilizado>{texto}</TituloEstilizado>
-    </FigureEstilizada>
-  );
-};
+        <TituloEstilizado>{texto}</TituloEstilizado>
+    </FigureEstilizada>)
+}
 
-export default Banner;
+export default Banner
