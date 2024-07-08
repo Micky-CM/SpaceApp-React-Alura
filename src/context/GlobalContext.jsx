@@ -1,11 +1,12 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 export const GlobalContext = createContext();
 
 const initialState = {
   consulta: '',
   fotosDeGaleria: [],
-  fotoSeleccionada: null
+  fotoSeleccionada: null,
+  modalAbierto: false
 }
 
 const reducer = (state, action) => {
@@ -15,9 +16,9 @@ const reducer = (state, action) => {
     case 'SET_FOTOS_DE_GALERIA':
       return { ...state, fotosDeGaleria: action.payload };
     case 'SET_FOTO_SELECCIONADA':
-      return { ...state, fotoSeleccionada: action.payload };
+      return { ...state, fotoSeleccionada: action.payload, modalAbierto: action.payload != null ? true : false };
     case 'ALTERNAR_FAVORITO':
-      const fotosDeGaleria = state.fotosDeGaleria.map(fotoDeGaleria => {
+      const fotosDeGaleria = state.fotosDeGaleria.map(fotoDeGaleria =>{
         return {
           ...fotoDeGaleria,
           favorita: fotoDeGaleria.id === action.payload.id ? !action.payload.favorita : fotoDeGaleria.favorita
